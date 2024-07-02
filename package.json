@@ -1,0 +1,24 @@
+{
+  "name": "jeremychrimes-node",
+  "version": "1.0.0",
+  "author": "Jeremy Chrimes",
+  "repository": {
+    "url": "",
+    "type": "git"
+  },
+  "workspaces": [
+    "ReactSimpleGames",
+    "libs/sudoku"
+  ],
+  "private": "true",
+  "dependencies": {
+    "turbo": "^2.0.6"
+  },
+  "scripts": {
+    "dev": "turbo dev"
+  },
+  "packageManager": "yarn@1.22.22",
+  "engines": {
+    "node": ">=20.0.0 <21.0.0"
+  }
+}
