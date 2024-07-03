@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "author": "Jeremy Chrimes",
   "repository": {
-    "url": "",
+    "url": "http://github.com/jeremychrimes/node-repo/",
     "type": "git"
   },
   "workspaces": [
@@ -12,6 +12,7 @@
   ],
   "private": "true",
   "dependencies": {
+    "@changesets/cli": "^2.27.7",
     "turbo": "^2.0.6"
   },
   "scripts": {

@@ -1,6 +1,8 @@
 type CellValue = string | undefined;
 type Board = CellValue[];
 
+const BOARD_SIZE = 9;
+
 function isCellValue(value: unknown): value is CellValue {
   return value === undefined || isSudokuNumber(value);
 }
@@ -12,6 +14,7 @@ function isBoard(array: Array<unknown>): array is Board {
 function isValidIndex(index: number): boolean {
   return index >= 0 && index < 81;
 }
+
 
 const _indexes = [
   [0, 1, 2, 9, 10, 11, 18, 19, 20],
@@ -40,6 +43,18 @@ export function isSudokuNumber(value: unknown): boolean {
     typeof value === "string" &&
     ["1", "2", "3", "4", "5", "6", "7", "8", "9"].includes(value)
   );
+}
+
+export function getCellColumnIndex(cellIndex: number): number {
+  return cellIndex % 9;
+}
+
+export function getCellRowIndex(cellIndex: number): number {
+  return Math.floor(cellIndex / BOARD_SIZE);
+}
+
+export function getCellGroupIndex(cellIndex: number): number {
+  return _indexes.findIndex((x) => x.includes(cellIndex));
 }
 
 export function createBoard(): Board {

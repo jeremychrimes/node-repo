@@ -3,6 +3,9 @@ import { cell, cellSelected, mainGrid, subGrid } from "./Sudoku.css";
 import {
   changePos,
   createBoard,
+  getCellColumnIndex,
+  getCellGroupIndex,
+  getCellRowIndex,
   getSudokuGroupIndexes,
   isSudokuNumber,
 } from "@jeremychrimes/sudoku";
@@ -21,6 +24,18 @@ export function Sudoku(): ReactElement {
     };
   }
 
+  const selectedRowIndex = selectedCell
+    ? getCellRowIndex(selectedCell)
+    : undefined;
+
+  const selectedColumnIndex = selectedCell
+    ? getCellColumnIndex(selectedCell)
+    : undefined;
+
+  const selectedGroupIndex = selectedCell
+    ? getCellGroupIndex(selectedCell)
+    : selectedCell;
+
   const commonProps: Omit<SubGridProps, "index"> = {
     arr: array,
     setPos: setPos,
@@ -30,7 +45,6 @@ export function Sudoku(): ReactElement {
 
   return (
     <React.Fragment>
-      <>{selectedCell}</>
       <div className={mainGrid}>
         <SubGrid {...commonProps} index={0} />
         <SubGrid {...commonProps} index={1} />
@@ -42,6 +56,13 @@ export function Sudoku(): ReactElement {
         <SubGrid {...commonProps} index={7} />
         <SubGrid {...commonProps} index={8} />
       </div>
+      <>{selectedCell}</>
+      <br></br>
+      <>Column {selectedColumnIndex}</>
+      <br />
+      <>Row {selectedRowIndex}</>
+      <br />
+      <>Group {selectedGroupIndex}</>
     </React.Fragment>
   );
 }
