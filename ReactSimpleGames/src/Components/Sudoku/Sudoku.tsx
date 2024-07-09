@@ -1,5 +1,11 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import { cell, cellSelected, mainGrid, subGrid } from "./Sudoku.css";
+import {
+  cell,
+  cellAffected,
+  cellSelected,
+  mainGrid,
+  subGrid,
+} from "./Sudoku.css";
 import {
   changePos,
   createBoard,
@@ -15,9 +21,10 @@ export function Sudoku(): ReactElement {
   const [array, setArray] = useState(createBoard());
   const [selectedCell, setSelectedCell] = useState<number | undefined>();
 
-  const affectedCells = selectedCell
-    ? getAffectedCellsSetForCellIndex(selectedCell)
-    : undefined;
+  const affectedCells =
+    selectedCell != undefined
+      ? getAffectedCellsSetForCellIndex(selectedCell)
+      : undefined;
 
   function setPos(i: number): (_: string) => void {
     return (x: string) => setArray((a) => changePos(a, i, x));
@@ -90,6 +97,7 @@ function SubGrid({
   setPos,
   toggleSelected,
   selectedCell,
+  affectedCells,
 }: SubGridProps) {
   return (
     <div className={subGrid}>
@@ -100,6 +108,7 @@ function SubGrid({
           setValue={setPos(x)}
           toggleSelect={toggleSelected(x)}
           selected={selectedCell === x}
+          affected={affectedCells?.has(x) ?? false}
         />
       ))}
     </div>
@@ -112,9 +121,16 @@ type CellProps = {
   value?: any;
   toggleSelect: () => void;
   selected: boolean;
+  affected: boolean;
 };
 
-function Cell({ value, toggleSelect, selected, setValue }: CellProps) {
+function Cell({
+  value,
+  toggleSelect,
+  selected,
+  setValue,
+  affected,
+}: CellProps) {
   useEffect(() => {
     const listenter = (event: KeyboardEvent) => {
       const key = event.key;
@@ -129,7 +145,7 @@ function Cell({ value, toggleSelect, selected, setValue }: CellProps) {
   }, [selected, toggleSelect, setValue, value]);
   return (
     <div
-      className={`${cell} ${selected ? cellSelected : ""}`}
+      className={`${cell} ${selected ? cellSelected : affected ? cellAffected : ""}`}
       onClick={toggleSelect}
     >
       {value}

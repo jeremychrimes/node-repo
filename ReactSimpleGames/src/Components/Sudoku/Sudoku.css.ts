@@ -1,5 +1,8 @@
 import { style } from "@vanilla-extract/css";
 
+const selectedCellColour = "#fffd8d";
+const otherSelectedCellColour = "#fffee0";
+
 export const mainGrid = style({
   display: "grid",
   gridTemplateColumns: "repeat(3, 1fr)",
@@ -27,5 +30,9 @@ export const cell = style({
 });
 
 export const cellSelected = style({
-  backgroundColor: "yellow",
+  backgroundColor: selectedCellColour,
+});
+
+export const cellAffected = style({
+  backgroundColor: otherSelectedCellColour,
 });
