@@ -15,7 +15,6 @@ function isValidIndex(index: number): boolean {
   return index >= 0 && index < 81;
 }
 
-
 const _indexes = [
   [0, 1, 2, 9, 10, 11, 18, 19, 20],
   [3, 4, 5, 12, 13, 14, 21, 22, 23],
@@ -29,7 +28,7 @@ const _indexes = [
 ];
 
 export function getSudokuGroupIndexes(
-  groupIndex: number | undefined = undefined,
+  groupIndex: number | undefined = undefined
 ): number[] {
   if (groupIndex != undefined && groupIndex >= 0 && groupIndex < 9) {
     return _indexes[groupIndex];
@@ -57,6 +56,24 @@ export function getCellGroupIndex(cellIndex: number): number {
   return _indexes.findIndex((x) => x.includes(cellIndex));
 }
 
+export function getCellColumnIndexes(columnIndex: number): Array<number> {
+  return Array.from(Array(9)).map((_, i) => i * 9 + columnIndex);
+}
+
+export function getCellRowIndexes(rowIndex: number): Array<number> {
+  return Array.from(Array(9)).map((_, i) => rowIndex * 9 + i);
+}
+
+export function getAffectedCellsSetForCellIndex(
+  cellIndex: number
+): Set<number> {
+  return new Set([
+    ...getCellColumnIndexes(getCellColumnIndex(cellIndex)),
+    ...getCellRowIndexes(getCellRowIndex(cellIndex)),
+    ...getSudokuGroupIndexes(getCellGroupIndex(cellIndex)),
+  ]);
+}
+
 export function createBoard(): Board {
   return Array.from(Array(81)).map(() => undefined);
 }
@@ -64,7 +81,7 @@ export function createBoard(): Board {
 export function changePos(
   array: Board,
   index: number,
-  value: CellValue,
+  value: CellValue
 ): Board {
   if (!isCellValue(value)) {
     throw new Error("Invalid value");

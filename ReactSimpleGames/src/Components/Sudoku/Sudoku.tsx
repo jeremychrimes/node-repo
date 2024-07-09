@@ -3,6 +3,7 @@ import { cell, cellSelected, mainGrid, subGrid } from "./Sudoku.css";
 import {
   changePos,
   createBoard,
+  getAffectedCellsSetForCellIndex,
   getCellColumnIndex,
   getCellGroupIndex,
   getCellRowIndex,
@@ -13,6 +14,10 @@ import {
 export function Sudoku(): ReactElement {
   const [array, setArray] = useState(createBoard());
   const [selectedCell, setSelectedCell] = useState<number | undefined>();
+
+  const affectedCells = selectedCell
+    ? getAffectedCellsSetForCellIndex(selectedCell)
+    : undefined;
 
   function setPos(i: number): (_: string) => void {
     return (x: string) => setArray((a) => changePos(a, i, x));
@@ -41,6 +46,7 @@ export function Sudoku(): ReactElement {
     setPos: setPos,
     selectedCell: selectedCell,
     toggleSelected: toggleSelected,
+    affectedCells: affectedCells,
   };
 
   return (
@@ -75,6 +81,7 @@ type SubGridProps = {
   setPos: setPosType;
   toggleSelected: (i: number) => () => void;
   selectedCell: number | undefined;
+  affectedCells?: Set<number>;
 };
 
 function SubGrid({
