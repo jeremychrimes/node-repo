@@ -91,7 +91,7 @@ type SubGridProps = {
   affectedCells?: Set<number>;
 };
 
-function SubGrid({
+export function SubGrid({
   arr,
   index,
   setPos,
@@ -102,13 +102,14 @@ function SubGrid({
   return (
     <div className={subGrid}>
       {getSudokuGroupIndexes(index).map((x) => (
-        <Cell
+        <SudokuCell
           key={x as number}
           value={arr[x]}
           setValue={setPos(x)}
           toggleSelect={toggleSelected(x)}
           selected={selectedCell === x}
           affected={affectedCells?.has(x) ?? false}
+          index={x as number}
         />
       ))}
     </div>
@@ -118,13 +119,14 @@ function SubGrid({
 type CellProps = {
   setValue: (x: string) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  value?: any;
+  value?: string;
   toggleSelect: () => void;
   selected: boolean;
   affected: boolean;
+  index: number;
 };
 
-function Cell({
+export function SudokuCell({
   value,
   toggleSelect,
   selected,
@@ -143,8 +145,10 @@ function Cell({
       document.removeEventListener("keypress", listenter);
     };
   }, [selected, toggleSelect, setValue, value]);
+
   return (
     <div
+      tabIndex={0}
       className={`${cell} ${selected ? cellSelected : affected ? cellAffected : ""}`}
       onClick={toggleSelect}
     >
