@@ -7,27 +7,29 @@ import {
   subGrid,
 } from "./Sudoku.css";
 import {
-  changePos,
-  createBoard,
   getAffectedCellsSetForCellIndex,
   getCellColumnIndex,
   getCellGroupIndex,
   getCellRowIndex,
   getSudokuGroupIndexes,
   isSudokuNumber,
+  ISudokuBoardCell,
+  SudokuBoard,
 } from "@jeremychrimes/sudoku";
 
 export function Sudoku(): ReactElement {
-  const [array, setArray] = useState(createBoard());
-  const [selectedCell, setSelectedCell] = useState<number | undefined>();
+  const [board, setBoard] = useState(new SudokuBoard());
+  const [selectedCellIndex, setSelectedCell] = useState<number | undefined>();
+
+  console.log({ board });
 
   const affectedCells =
-    selectedCell != undefined
-      ? getAffectedCellsSetForCellIndex(selectedCell)
+    selectedCellIndex != undefined
+      ? getAffectedCellsSetForCellIndex(selectedCellIndex)
       : undefined;
 
   function setPos(i: number): (_: string) => void {
-    return (x: string) => setArray((a) => changePos(a, i, x));
+    return (x: string) => setBoard((board) => board.updateValue(i)(x));
   }
 
   function toggleSelected(i: number): () => void {
@@ -36,22 +38,18 @@ export function Sudoku(): ReactElement {
     };
   }
 
-  const selectedRowIndex = selectedCell
-    ? getCellRowIndex(selectedCell)
-    : undefined;
-
-  const selectedColumnIndex = selectedCell
-    ? getCellColumnIndex(selectedCell)
-    : undefined;
-
-  const selectedGroupIndex = selectedCell
-    ? getCellGroupIndex(selectedCell)
-    : selectedCell;
+  const selectedCell =
+    selectedCellIndex != undefined
+      ? board.getCell(selectedCellIndex)
+      : undefined;
+  const selectedRowIndex = selectedCell?.rowIndex;
+  const selectedColumnIndex = selectedCell?.colIndex;
+  const selectedGroupIndex = selectedCell?.groupIndex;
 
   const commonProps: Omit<SubGridProps, "index"> = {
-    arr: array,
+    board: board,
     setPos: setPos,
-    selectedCell: selectedCell,
+    selectedCell: selectedCellIndex,
     toggleSelected: toggleSelected,
     affectedCells: affectedCells,
   };
@@ -69,7 +67,7 @@ export function Sudoku(): ReactElement {
         <SubGrid {...commonProps} index={7} />
         <SubGrid {...commonProps} index={8} />
       </div>
-      <>{selectedCell}</>
+      <>{selectedCellIndex}</>
       <br></br>
       <>Column {selectedColumnIndex}</>
       <br />
@@ -83,16 +81,16 @@ export function Sudoku(): ReactElement {
 type setPosType = (i: number) => (x: string) => void;
 
 type SubGridProps = {
-  arr: (string | undefined)[];
   index: number;
   setPos: setPosType;
   toggleSelected: (i: number) => () => void;
   selectedCell: number | undefined;
   affectedCells?: Set<number>;
+  board: SudokuBoard;
 };
 
 export function SubGrid({
-  arr,
+  board,
   index,
   setPos,
   toggleSelected,
@@ -104,12 +102,12 @@ export function SubGrid({
       {getSudokuGroupIndexes(index).map((x) => (
         <SudokuCell
           key={x as number}
-          value={arr[x]}
           setValue={setPos(x)}
           toggleSelect={toggleSelected(x)}
           selected={selectedCell === x}
           affected={affectedCells?.has(x) ?? false}
           index={x as number}
+          cellVm={board.getCell(x)}
         />
       ))}
     </div>
@@ -119,32 +117,34 @@ export function SubGrid({
 type CellProps = {
   setValue: (x: string) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  value?: string;
   toggleSelect: () => void;
   selected: boolean;
   affected: boolean;
   index: number;
+  cellVm: ISudokuBoardCell;
 };
 
 export function SudokuCell({
-  value,
   toggleSelect,
   selected,
   setValue,
   affected,
+  cellVm,
 }: CellProps) {
   useEffect(() => {
     const listenter = (event: KeyboardEvent) => {
       const key = event.key;
       if (isSudokuNumber(key)) {
         setValue(key);
+      } else if (key.toUpperCase() != key.toLowerCase()) {
+        setValue("");
       }
     };
     selected && document.addEventListener("keypress", listenter, {});
     return () => {
       document.removeEventListener("keypress", listenter);
     };
-  }, [selected, toggleSelect, setValue, value]);
+  }, [selected, toggleSelect, setValue, cellVm]);
 
   return (
     <div
@@ -152,7 +152,7 @@ export function SudokuCell({
       className={`${cell} ${selected ? cellSelected : affected ? cellAffected : ""}`}
       onClick={toggleSelect}
     >
-      {value}
+      {cellVm.value}
     </div>
   );
 }

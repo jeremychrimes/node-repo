@@ -38,30 +38,27 @@ export function createSudokuBoardCell(cellIndex: number): ISudokuBoardCell {
     rowIndex: getCellRowIndex(cellIndex),
     colIndex: getCellColumnIndex(cellIndex),
     groupIndex: getCellGroupIndex(cellIndex),
+    value: "",
   };
 }
 
 export class SudokuBoard
   implements ISudokuBoard<ISudokuBoardCell, ISudokuBoardCell>
 {
-  map: Map<number, ISudokuBoardCell>;
-  constructor(map?: Map<number, ISudokuBoardCell>) {
-    this.map =
-      map ??
-      new Map<number, ISudokuBoardCell>(
-        createBoard().map((_, i) => [i, createSudokuBoardCell(i)])
-      );
+  array: ReadonlyArray<ISudokuBoardCell>;
+  constructor(array?: Array<ISudokuBoardCell>) {
+    this.array = array ?? createBoard().map((_, i) => createSudokuBoardCell(i));
   }
   updateValue(index: number) {
     return this.ensureValidIndex(
       index,
       () => (value: SudokuValue | undefined) => {
-        const newMap = new Map(this.map);
-        const current = this.map.get(index);
+        const newMap = this.array.map((x) => x);
+        const current = this.array[index];
         if (current === undefined) {
           throw new Error("Value not found");
         }
-        newMap.set(index, { ...current, value });
+        newMap[index] = { ...current, value };
         return new SudokuBoard(newMap);
       }
     );
@@ -71,7 +68,7 @@ export class SudokuBoard
     // Implement logic to get the value of the cell at the given index
     // Example:
     // return this.cells[index];
-    return this.ensureValidIndex(index, () => this.map.get(index)?.value);
+    return this.ensureValidIndex(index, () => this.getCell(index).value);
   }
 
   getCell(index: number): ISudokuBoardCell {
@@ -82,17 +79,11 @@ export class SudokuBoard
     //   index,
     //   value: cellValue,
     // };
-    return this.ensureValidIndex(index, () => this.map.get(index));
+    return this.ensureValidIndex(index, () => this.array[index]);
   }
 
-  getCells(): ISudokuBoardCell[] {
-    return Array.from(this.allCells());
-  }
-
-  *allCells() {
-    for (let i = 0; i > 81; i++) {
-      yield this.getCell(i);
-    }
+  getCells(): ReadonlyArray<ISudokuBoardCell> {
+    return this.array;
   }
 
   private isValidIndex(index: number) {
