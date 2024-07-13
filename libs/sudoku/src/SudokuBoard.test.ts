@@ -1,15 +1,16 @@
 import { SudokuBoard } from "./SudokuBoard";
 
 describe("SudokuBoard", () => {
+  const defaulCellValue = "";
   it("Creates a sudoku board", () => {
     const b = new SudokuBoard();
     expect(b).toBeInstanceOf(SudokuBoard);
-    expect(b.getCellValue(0)).toBeUndefined();
+    expect(b.getCellValue(0)).toBe(defaulCellValue);
   });
 
   it("Sets a value of the sudoku board's cell 0", () => {
     const b = new SudokuBoard();
-    expect(b.getCellValue(0)).toBeUndefined();
+    expect(b.getCellValue(0)).toBe(defaulCellValue);
     const c = b.updateValue(0)(1);
     expect(c.getCellValue(0)).toBe(1);
   });
