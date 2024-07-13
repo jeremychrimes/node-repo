@@ -1,45 +1,80 @@
-import { createBoard } from "./logic";
+import {
+  createBoard,
+  getCellColumnIndex,
+  getCellGroupIndex,
+  getCellRowIndex,
+} from "./logic";
 
 export interface ISudokuBoard<TCellStore, TCellValue> {
   updateValue: (
     index: number
   ) => (value: TCellValue) => ISudokuBoard<TCellStore, TCellValue>;
   getCellValue: (index: number) => TCellValue;
-  getCell: (index: number) => TCellValue;
+  getCell: (index: number) => TCellStore;
+}
+export type SudokuValue =
+  | "1"
+  | "2"
+  | "3"
+  | "4"
+  | "5"
+  | "6"
+  | "7"
+  | "8"
+  | "9"
+  | "";
+
+export interface ISudokuBoardCell {
+  value?: SudokuValue | "" | undefined;
+  cellIndex: number;
+  rowIndex: number;
+  colIndex: number;
+  groupIndex: number;
 }
 
-export class SudokuBoard implements ISudokuBoard<number, number | undefined> {
-  map: Map<number, number | undefined>;
-  constructor(map?: Map<number, number | undefined>) {
+export function createSudokuBoardCell(cellIndex: number): ISudokuBoardCell {
+  return {
+    cellIndex,
+    rowIndex: getCellRowIndex(cellIndex),
+    colIndex: getCellColumnIndex(cellIndex),
+    groupIndex: getCellGroupIndex(cellIndex),
+  };
+}
+
+export class SudokuBoard
+  implements ISudokuBoard<ISudokuBoardCell, ISudokuBoardCell>
+{
+  map: Map<number, ISudokuBoardCell>;
+  constructor(map?: Map<number, ISudokuBoardCell>) {
     this.map =
       map ??
-      new Map<number, number | undefined>(
-        createBoard().map((_, i) => [i, undefined])
+      new Map<number, ISudokuBoardCell>(
+        createBoard().map((_, i) => [i, createSudokuBoardCell(i)])
       );
   }
   updateValue(index: number) {
-    return this.ensureValidIndex(index, () => (value: number | undefined) => {
-      // Implement logic to update the value of the cell at the given index
-      // Return a new instance of SudokuBoard with the updated value
-      // You can use the spread operator (...) to clone the current board and modify the specific cell
-      // Example:
-      // const updatedBoard = { ...this };
-      // updatedBoard.cells[index] = value;
-      // return updatedBoard;
-      const newMap = new Map(this.map);
-      newMap.set(index, value);
-      return new SudokuBoard(newMap);
-    });
+    return this.ensureValidIndex(
+      index,
+      () => (value: SudokuValue | undefined) => {
+        const newMap = new Map(this.map);
+        const current = this.map.get(index);
+        if (current === undefined) {
+          throw new Error("Value not found");
+        }
+        newMap.set(index, { ...current, value });
+        return new SudokuBoard(newMap);
+      }
+    );
   }
 
   getCellValue(index: number) {
     // Implement logic to get the value of the cell at the given index
     // Example:
     // return this.cells[index];
-    return this.ensureValidIndex(index, () => this.map.get(index));
+    return this.ensureValidIndex(index, () => this.map.get(index)?.value);
   }
 
-  getCell(index: number) {
+  getCell(index: number): ISudokuBoardCell {
     // Implement logic to get the cell at the given index
     // Example:
     // const cellValue = this.getCellValue(index);
@@ -48,6 +83,16 @@ export class SudokuBoard implements ISudokuBoard<number, number | undefined> {
     //   value: cellValue,
     // };
     return this.ensureValidIndex(index, () => this.map.get(index));
+  }
+
+  getCells(): ISudokuBoardCell[] {
+    return Array.from(this.allCells());
+  }
+
+  *allCells() {
+    for (let i = 0; i > 81; i++) {
+      yield this.getCell(i);
+    }
   }
 
   private isValidIndex(index: number) {

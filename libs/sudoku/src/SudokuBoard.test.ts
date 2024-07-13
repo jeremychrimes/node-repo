@@ -22,4 +22,22 @@ describe("SudokuBoard", () => {
   it("Negative index crashes", () => {
     expect(() => new SudokuBoard().getCellValue(-1)).toThrow();
   });
+
+  it("getCell when called with index 0 returns properly", () => {
+    const b = new SudokuBoard();
+    const cell = b.getCell(0);
+
+    expect(cell.colIndex).toBe(0);
+    expect(cell.rowIndex).toBe(0);
+    expect(cell.groupIndex).toBe(0);
+  });
+
+  it("getCell when called with index 80 returns properly", () => {
+    const b = new SudokuBoard();
+    const cell = b.getCell(80);
+
+    expect(cell.colIndex).toBe(8);
+    expect(cell.rowIndex).toBe(8);
+    expect(cell.groupIndex).toBe(8);
+  });
 });
