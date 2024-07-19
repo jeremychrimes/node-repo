@@ -11,12 +11,12 @@
     "turbo-dev": "turbo run dev --filter react-tac-toe..."
   },
   "dependencies": {
+    "@jeremychrimes/sudoku": "*",
     "@vanilla-extract/css": "^1.15.2",
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.23.1",
-    "@jeremychrimes/sudoku": "*"
+    "react-router-dom": "^6.23.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
