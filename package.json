@@ -2,28 +2,28 @@
   "name": "jeremychrimes-node",
   "version": "1.0.0",
   "author": "Jeremy Chrimes",
-  "repository": {
-    "url": "http://github.com/jeremychrimes/node-repo/",
-    "type": "git"
+  "dependencies": {
+    "@changesets/cli": "^2.27.7",
+    "turbo": "^2.0.6"
+  },
+  "devDependencies": {
+    "@babel/core": "7.24.9",
+    "@babel/preset-typescript": "^7.24.7",
+    "jest": "^29.7.0",
+    "syncpack": "^12.3.3",
+    "ts-jest": "^29.1.5",
+    "typescript": "^5.5.3"
+  },
+  "engines": {
+    "node": ">=20.0.0 <22.0.0"
+  },
+  "packageManager": "yarn@4.3.1",
+  "repository": "jeremychrimes/node-repo/",
+  "scripts": {
+    "dev": "turbo dev"
   },
   "workspaces": [
     "ReactSimpleGames",
     "libs/sudoku"
-  ],
-  "dependencies": {
-    "@changesets/cli": "^2.27.7",
-    "jest": "^29.7.0",
-    "ts-jest": "^29.1.5",
-    "turbo": "^2.0.6"
-  },
-  "scripts": {
-    "dev": "turbo dev"
-  },
-  "packageManager": "yarn@4.3.1",
-  "engines": {
-    "node": ">=20.0.0 <22.0.0"
-  },
-  "devDependencies": {
-    "@babel/preset-typescript": "^7.24.7"
-  }
+  ]
 }
