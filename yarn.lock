@@ -7059,9 +7059,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-tac-toe@workspace:ReactSimpleGames":
+"react-tac-toe@workspace:apps/ReactSimpleGames":
   version: 0.0.0-use.local
-  resolution: "react-tac-toe@workspace:ReactSimpleGames"
+  resolution: "react-tac-toe@workspace:apps/ReactSimpleGames"
   dependencies:
     "@jeremychrimes/sudoku": "workspace:*"
     "@types/react": "npm:^18.2.66"

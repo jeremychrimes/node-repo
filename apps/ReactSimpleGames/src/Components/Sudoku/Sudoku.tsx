@@ -8,9 +8,6 @@ import {
 } from "./Sudoku.css";
 import {
   getAffectedCellsSetForCellIndex,
-  getCellColumnIndex,
-  getCellGroupIndex,
-  getCellRowIndex,
   getSudokuGroupIndexes,
   isSudokuNumber,
   ISudokuBoardCell,

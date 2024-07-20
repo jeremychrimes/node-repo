@@ -23,7 +23,7 @@
     "dev": "turbo dev"
   },
   "workspaces": [
-    "ReactSimpleGames",
+    "apps/ReactSimpleGames",
     "libs/sudoku"
   ]
 }
