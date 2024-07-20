@@ -1,4 +1,4 @@
-import { SudokuBoard } from "./SudokuBoard";
+import { ISudokuBoard, SudokuBoard } from "./SudokuBoard";
 
 describe("SudokuBoard", () => {
   const defaulCellValue = "";
@@ -11,8 +11,15 @@ describe("SudokuBoard", () => {
   it("Sets a value of the sudoku board's cell 0", () => {
     const b = new SudokuBoard();
     expect(b.getCellValue(0)).toBe(defaulCellValue);
-    const c = b.updateValue(0)(1);
-    expect(c.getCellValue(0)).toBe(1);
+    const c = b.updateValue(0)("1");
+    expect(c.getCellValue(0)).toBe("1");
+  });
+
+  it("Sets a value of the sudoku board's cell 0 using the un-curried updateValue function", () => {
+    const b = new SudokuBoard();
+    expect(b.getCellValue(0)).toBe("");
+    const c = b.updateValue(0, "5");
+    expect(c.getCellValue(0)).toBe("5");
   });
 
   it("Set the value of the sudoku board's cell 80 to 9", () => {

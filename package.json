@@ -21,7 +21,9 @@
   "packageManager": "yarn@4.3.1",
   "repository": "jeremychrimes/node-repo/",
   "scripts": {
-    "dev": "turbo dev"
+    "dev": "turbo dev",
+    "prepare-publish": "turbo run build test && changeset version",
+    "publish-packages": "turbo run build test && changeset publish"
   },
   "workspaces": [
     "apps/ReactSimpleGames",

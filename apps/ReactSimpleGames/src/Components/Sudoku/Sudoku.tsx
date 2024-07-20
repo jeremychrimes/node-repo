@@ -15,7 +15,7 @@ import {
 } from "@jeremychrimes/sudoku";
 
 export function Sudoku(): ReactElement {
-  const [board, setBoard] = useState(new SudokuBoard());
+  const [board, setBoard] = useState<SudokuBoard>(new SudokuBoard());
   const [selectedCellIndex, setSelectedCell] = useState<number | undefined>();
 
   console.log({ board });
@@ -26,7 +26,7 @@ export function Sudoku(): ReactElement {
       : undefined;
 
   function setPos(i: number): (_: string) => void {
-    return (x: string) => setBoard((board) => board.updateValue(i)(x));
+    return (x: string) => setBoard((board) => board.updateValue(i, x));
   }
 
   function toggleSelected(i: number): () => void {
