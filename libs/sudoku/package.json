@@ -4,7 +4,7 @@
     "type": "git",
     "url": "https://github.com/jeremychrimes/node-repo"
   },
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Sudoku Tools",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -33,6 +33,8 @@
     "typescript": "^5.5.3"
   },
   "files": [
-    "./dist/"
+    "./dist/",
+    "./README.md",
+    "CHANGLOG.md"
   ]
 }

@@ -1,5 +1,13 @@
 # @jeremychrimes/sudoku
 
+## 0.0.3
+
+### Patch Changes
+
+- 9e02bdb: Add README.md to repo
+- 80798ec: Add git repo to package.json so it can be seen from npm
+- 5be844e: Add readme file and modify package.json
+
 ## 0.0.1
 
 ### Patch Changes
