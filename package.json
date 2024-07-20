@@ -22,6 +22,7 @@
   "repository": "jeremychrimes/node-repo/",
   "scripts": {
     "dev": "turbo dev",
+    "build": "turbo build test",
     "prepare-publish": "turbo run build test && changeset && changeset version",
     "publish-packages": "turbo run build test && changeset publish"
   },
