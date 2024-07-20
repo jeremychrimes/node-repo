@@ -3669,6 +3669,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"changesets@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "changesets@npm:1.0.2"
+  checksum: 10c0/fd72972b7ef59a2c8ba7a5fd0d483e9893921171358027203b9335ede5cb5541b68f2c42f4651f89b151c2936a909fe85b36ea79a3dad22b33e1e912b5aa5931
+  languageName: node
+  linkType: hard
+
 "char-regex@npm:^1.0.2":
   version: 1.0.2
   resolution: "char-regex@npm:1.0.2"
@@ -5342,6 +5349,7 @@ __metadata:
     "@babel/core": "npm:7.24.9"
     "@babel/preset-typescript": "npm:^7.24.7"
     "@changesets/cli": "npm:^2.27.7"
+    changesets: "npm:^1.0.2"
     jest: "npm:^29.7.0"
     syncpack: "npm:^12.3.3"
     ts-jest: "npm:^29.1.5"
