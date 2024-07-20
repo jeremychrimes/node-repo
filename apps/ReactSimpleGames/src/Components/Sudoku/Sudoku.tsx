@@ -55,6 +55,7 @@ export function Sudoku(): ReactElement {
 
   return (
     <React.Fragment>
+      <h1>Sudoku</h1>
       <div className={mainGrid}>
         <SubGrid {...commonProps} index={0} />
         <SubGrid {...commonProps} index={1} />
