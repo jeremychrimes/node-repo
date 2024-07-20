@@ -1,6 +1,10 @@
 {
   "name": "@jeremychrimes/sudoku",
-  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jeremychrimes/node-repo"
+  },
+  "version": "0.0.1",
   "description": "Sudoku Tools",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -27,5 +31,8 @@
     "jest-environment-jsdom": "^29.7.0",
     "ts-jest": "^29.1.5",
     "typescript": "^5.5.3"
-  }
+  },
+  "files": [
+    "./dist/"
+  ]
 }
