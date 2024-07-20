@@ -12,6 +12,7 @@ import {
   isSudokuNumber,
   ISudokuBoardCell,
   SudokuBoard,
+  SudokuValue,
 } from "@jeremychrimes/sudoku";
 
 export function Sudoku(): ReactElement {
@@ -26,7 +27,8 @@ export function Sudoku(): ReactElement {
       : undefined;
 
   function setPos(i: number): (_: string) => void {
-    return (x: string) => setBoard((board) => board.updateValue(i, x));
+    return (x: string) =>
+      setBoard((board) => board.updateValue(i, x as SudokuValue));
   }
 
   function toggleSelected(i: number): () => void {

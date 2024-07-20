@@ -1,4 +1,4 @@
-import { ISudokuBoard, SudokuBoard } from "./SudokuBoard";
+import { SudokuBoard } from "./SudokuBoard";
 
 describe("SudokuBoard", () => {
   const defaulCellValue = "";
