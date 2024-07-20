@@ -1,5 +1,11 @@
 # @jeremychrimes/sudoku
 
+## 0.1.0
+
+### Minor Changes
+
+- 12ede77: Un-curry the SudokuBoard set function
+
 ## 0.0.3
 
 ### Patch Changes
