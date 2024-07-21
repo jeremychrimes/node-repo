@@ -52,7 +52,7 @@ export class SudokuBoard implements ISudokuBoard {
           throw new Error("Value not found");
         }
         newMap[index] = { ...current, value };
-        return new SudokuBoard(newMap);
+        return new SudokuBoard(newMap).validateBoard(index);
       };
 
       if (value !== undefined) {
@@ -117,7 +117,7 @@ export class SudokuBoard implements ISudokuBoard {
     );
   }
 
-  validateBoard(index: number): SudokuBoard {
+  validateBoard(index: number): ISudokuBoard {
     return this.ensureValidIndex(index, () => {
       const board = this.validateRow(getCellRowIndex(index))
         .validateColumn(getCellColumnIndex(index))
@@ -126,7 +126,7 @@ export class SudokuBoard implements ISudokuBoard {
     });
   }
 
-  validateRow(index: GroupIndex): SudokuBoard {
+  validateRow(index: GroupIndex): ISudokuBoard {
     return this.ensureValidGroupIndex(index, () => {
       const row: SudokuGroup = this.getRow(index).map((cell) => cell.value);
       const isValid = validateSudokuGroup(row);
@@ -139,7 +139,7 @@ export class SudokuBoard implements ISudokuBoard {
     });
   }
 
-  validateColumn(index: GroupIndex): SudokuBoard {
+  validateColumn(index: GroupIndex): ISudokuBoard {
     return this.ensureValidGroupIndex(index, () => {
       const column: SudokuGroup = this.getColumn(index).map(
         (cell) => cell.value
@@ -154,7 +154,7 @@ export class SudokuBoard implements ISudokuBoard {
     });
   }
 
-  validateGroup(index: GroupIndex): SudokuBoard {
+  validateGroup(index: GroupIndex): ISudokuBoard {
     return this.ensureValidGroupIndex(index, () => {
       const group: SudokuGroup = this.getGroup(index).map((cell) => cell.value);
       const isValid = validateSudokuGroup(group);
@@ -166,6 +166,7 @@ export class SudokuBoard implements ISudokuBoard {
       return new SudokuBoard(array);
     });
   }
+
   /**
    * A private method to check the index of a sudoku cell.
    * @param index an index

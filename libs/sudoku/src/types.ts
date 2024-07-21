@@ -15,6 +15,10 @@ export interface ISudokuBoard {
   updateValue(index: number, value?: SudokuValue | undefined): ISudokuBoard;
   getCellValue: (index: number) => SudokuValue;
   getCell: (index: number) => ISudokuBoardCell;
+  validateBoard: (index: GroupIndex) => ISudokuBoard;
+  validateColumn: (index: GroupIndex) => ISudokuBoard;
+  validateRow: (index: GroupIndex) => ISudokuBoard;
+  validateGroup: (index: GroupIndex) => ISudokuBoard;
 }
 export interface ISudokuBoardCell {
   value: SudokuValue | "";

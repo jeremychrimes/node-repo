@@ -2,6 +2,7 @@ import React, { ReactElement, useEffect, useState } from "react";
 import {
   cell,
   cellAffected,
+  cellError,
   cellSelected,
   mainGrid,
   subGrid,
@@ -147,13 +148,26 @@ export function SudokuCell({
     };
   }, [selected, toggleSelect, setValue, cellVm]);
 
+  const invalid = !cellVm.validRow || !cellVm.validColumn || !cellVm.validGroup;
+
   return (
     <div
       tabIndex={0}
-      className={`${cell} ${selected ? cellSelected : affected ? cellAffected : ""}`}
+      className={`${cell} ${getCellClassName()}`}
       onClick={toggleSelect}
     >
       {cellVm.value}
     </div>
   );
+
+  function getCellClassName() {
+    if (selected) {
+      return cellSelected;
+    } else if (invalid) {
+      return cellError;
+    } else if (affected) {
+      return cellAffected;
+    }
+    return "";
+  }
 }

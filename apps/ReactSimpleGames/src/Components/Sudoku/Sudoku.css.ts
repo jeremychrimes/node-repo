@@ -2,6 +2,7 @@ import { style } from "@vanilla-extract/css";
 
 const selectedCellColour = "#fffd8d";
 const otherSelectedCellColour = "#fffee0";
+const errorCellColour = "#ffe0e0";
 
 export const mainGrid = style({
   display: "grid",
@@ -35,4 +36,8 @@ export const cellSelected = style({
 
 export const cellAffected = style({
   backgroundColor: otherSelectedCellColour,
+});
+
+export const cellError = style({
+  backgroundColor: errorCellColour,
 });
