@@ -1,36 +1,21 @@
 import {
   createBoard,
   getCellColumnIndex,
+  getCellColumnIndexes,
   getCellGroupIndex,
   getCellRowIndex,
+  getCellRowIndexes,
+  getSudokuGroupIndexes,
+  isValidGroupIndex,
 } from "./logic";
-
-export interface ISudokuBoard<TCellStore, TCellValue> {
-  updateValue: (
-    index: number,
-  ) => (value: TCellValue) => ISudokuBoard<TCellStore, TCellValue>;
-  getCellValue: (index: number) => TCellValue;
-  getCell: (index: number) => TCellStore;
-}
-export type SudokuValue =
-  | "1"
-  | "2"
-  | "3"
-  | "4"
-  | "5"
-  | "6"
-  | "7"
-  | "8"
-  | "9"
-  | "";
-
-export interface ISudokuBoardCell {
-  value?: SudokuValue | "" | undefined;
-  cellIndex: number;
-  rowIndex: number;
-  colIndex: number;
-  groupIndex: number;
-}
+import {
+  GroupIndex,
+  ISudokuBoard,
+  ISudokuBoardCell,
+  SudokuGroup,
+  SudokuValue,
+} from "./types";
+import { validateSudokuGroup } from "./validate";
 
 export function createSudokuBoardCell(cellIndex: number): ISudokuBoardCell {
   return {
@@ -39,23 +24,26 @@ export function createSudokuBoardCell(cellIndex: number): ISudokuBoardCell {
     colIndex: getCellColumnIndex(cellIndex),
     groupIndex: getCellGroupIndex(cellIndex),
     value: "",
+    validRow: true,
+    validColumn: true,
+    validGroup: true,
   };
 }
 
-export class SudokuBoard
-  implements ISudokuBoard<ISudokuBoardCell, ISudokuBoardCell>
-{
+export class SudokuBoard implements ISudokuBoard {
   array: ReadonlyArray<ISudokuBoardCell>;
   constructor(array?: Array<ISudokuBoardCell>) {
     this.array = array ?? createBoard().map((_, i) => createSudokuBoardCell(i));
   }
 
+  updateValue(index: number): (value: SudokuValue | undefined) => ISudokuBoard;
+  updateValue(index: number, value?: SudokuValue | undefined): ISudokuBoard;
   /**
    *
    * @param index the index of the cell we want to mutate
    * @returns A callback function that will enable us to provide a value for that cell
    */
-  updateValue(index: number, value?: undefined | SudokuValue) {
+  updateValue(index: number, value?: SudokuValue | undefined) {
     return this.ensureValidIndex(index, () => {
       const updateFunc = (value: SudokuValue | undefined) => {
         const newMap = this.array.map((x) => x);
@@ -111,6 +99,73 @@ export class SudokuBoard
     return this.array;
   }
 
+  getRow(index: GroupIndex): ReadonlyArray<ISudokuBoardCell> {
+    return this.ensureValidGroupIndex(index, () =>
+      this.array.filter((cell) => cell.rowIndex === index)
+    );
+  }
+
+  getColumn(columnIndex: GroupIndex): ReadonlyArray<ISudokuBoardCell> {
+    return this.ensureValidGroupIndex(columnIndex, () =>
+      this.array.filter((cell) => cell.colIndex === columnIndex)
+    );
+  }
+
+  getGroup(groupIndex: GroupIndex): ReadonlyArray<ISudokuBoardCell> {
+    return this.ensureValidGroupIndex(groupIndex, () =>
+      this.array.filter((cell) => cell.groupIndex === groupIndex)
+    );
+  }
+
+  validateBoard(index: number): SudokuBoard {
+    return this.ensureValidIndex(index, () => {
+      const board = this.validateRow(getCellRowIndex(index))
+        .validateColumn(getCellColumnIndex(index))
+        .validateGroup(getCellGroupIndex(index));
+      return board;
+    });
+  }
+
+  validateRow(index: GroupIndex): SudokuBoard {
+    return this.ensureValidGroupIndex(index, () => {
+      const row: SudokuGroup = this.getRow(index).map((cell) => cell.value);
+      const isValid = validateSudokuGroup(row);
+      const array = this.array.map((cell) => cell);
+      getCellRowIndexes(index).forEach((cellIndex) => {
+        array[cellIndex] = { ...array[cellIndex], validRow: isValid };
+      });
+
+      return new SudokuBoard(array);
+    });
+  }
+
+  validateColumn(index: GroupIndex): SudokuBoard {
+    return this.ensureValidGroupIndex(index, () => {
+      const column: SudokuGroup = this.getColumn(index).map(
+        (cell) => cell.value
+      );
+      const isValid = validateSudokuGroup(column);
+      const array = this.array.map((cell) => cell);
+      getCellColumnIndexes(index).forEach((cellIndex) => {
+        array[cellIndex] = { ...array[cellIndex], validColumn: isValid };
+      });
+
+      return new SudokuBoard(array);
+    });
+  }
+
+  validateGroup(index: GroupIndex): SudokuBoard {
+    return this.ensureValidGroupIndex(index, () => {
+      const group: SudokuGroup = this.getGroup(index).map((cell) => cell.value);
+      const isValid = validateSudokuGroup(group);
+      const array = this.array.map((cell) => cell);
+      getSudokuGroupIndexes(index).forEach((cellIndex) => {
+        array[cellIndex] = { ...array[cellIndex], validGroup: isValid };
+      });
+
+      return new SudokuBoard(array);
+    });
+  }
   /**
    * A private method to check the index of a sudoku cell.
    * @param index an index
@@ -132,5 +187,12 @@ export class SudokuBoard
       throw new Error("Index out of bounds");
     }
     return callback();
+  }
+
+  private ensureValidGroupIndex<T>(index: number, callback: () => T): T {
+    if (isValidGroupIndex(index)) {
+      return callback();
+    }
+    throw new Error("Invalid group index");
   }
 }

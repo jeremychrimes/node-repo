@@ -1,3 +1,5 @@
+import { GroupIndex } from "./types";
+
 type CellValue = string | undefined;
 type Board = CellValue[];
 
@@ -44,16 +46,25 @@ export function isSudokuNumber(value: unknown): boolean {
   );
 }
 
-export function getCellColumnIndex(cellIndex: number): number {
-  return cellIndex % 9;
+export function getCellColumnIndex(cellIndex: number): GroupIndex {
+  return ensureValidIndex(cellIndex, () => cellIndex % 9);
 }
 
-export function getCellRowIndex(cellIndex: number): number {
-  return Math.floor(cellIndex / BOARD_SIZE);
+export function getCellRowIndex(cellIndex: number): GroupIndex {
+  return ensureValidIndex(cellIndex, () => Math.floor(cellIndex / BOARD_SIZE));
 }
 
-export function getCellGroupIndex(cellIndex: number): number {
-  return _indexes.findIndex((x) => x.includes(cellIndex));
+export function getCellGroupIndex(cellIndex: number): GroupIndex {
+  return ensureValidIndex(cellIndex, () =>
+    _indexes.findIndex((x) => x.includes(cellIndex))
+  );
+}
+
+function ensureValidIndex(index: number, callback: () => any) {
+  if (!this.isValidIndex(index)) {
+    throw new Error("Index out of bounds");
+  }
+  return callback();
 }
 
 export function getCellColumnIndexes(columnIndex: number): Array<number> {
@@ -72,6 +83,12 @@ export function getAffectedCellsSetForCellIndex(
     ...getCellRowIndexes(getCellRowIndex(cellIndex)),
     ...getSudokuGroupIndexes(getCellGroupIndex(cellIndex)),
   ]);
+}
+
+export function isValidGroupIndex(
+  groupIndex: number
+): groupIndex is GroupIndex {
+  return groupIndex >= 0 && groupIndex < 9;
 }
 
 export function createBoard(): Board {

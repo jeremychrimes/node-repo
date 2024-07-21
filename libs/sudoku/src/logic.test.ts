@@ -4,6 +4,7 @@ import {
   getAffectedCellsSetForCellIndex,
   getCellColumnIndexes,
   getCellRowIndexes,
+  isValidGroupIndex,
 } from "./logic";
 
 describe("Logic", () => {
@@ -78,5 +79,23 @@ describe("getAffectedCellsSetForCellIndex", () => {
     expect(affectedCellsSet).toContain(1);
     expect(affectedCellsSet).toContain(9);
     expect(affectedCellsSet).toContain(20);
+  });
+});
+
+describe("Valid group index", () => {
+  test("Group index 0", () => {
+    expect(isValidGroupIndex(0)).toBe(true);
+  });
+
+  test("Group index 8", () => {
+    expect(isValidGroupIndex(8)).toBe(true);
+  });
+
+  test("Group index 9", () => {
+    expect(isValidGroupIndex(9)).toBe(false);
+  });
+
+  test("Group index -1", () => {
+    expect(isValidGroupIndex(-1)).toBe(false);
   });
 });
