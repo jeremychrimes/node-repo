@@ -45,7 +45,7 @@ export class SudokuBoard implements ISudokuBoard {
    */
   updateValue(index: number, value?: SudokuValue | undefined) {
     return this.ensureValidIndex(index, () => {
-      const updateFunc = (value: SudokuValue | undefined) => {
+      const updateFunc = (value: SudokuValue) => {
         const newMap = this.array.map((x) => x);
         const current = this.array[index];
         if (current === undefined) {

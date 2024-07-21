@@ -13,8 +13,8 @@ export type SudokuValue =
 export interface ISudokuBoard {
   updateValue(index: number): (value: SudokuValue | undefined) => ISudokuBoard;
   updateValue(index: number, value?: SudokuValue | undefined): ISudokuBoard;
-  getCellValue: (index: number) => SudokuValue | undefined;
-  getCell: (index: number) => ISudokuBoardCell | undefined;
+  getCellValue: (index: number) => SudokuValue;
+  getCell: (index: number) => ISudokuBoardCell;
 }
 export interface ISudokuBoardCell {
   value: SudokuValue | "";

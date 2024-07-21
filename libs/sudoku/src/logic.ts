@@ -61,7 +61,7 @@ export function getCellGroupIndex(cellIndex: number): GroupIndex {
 }
 
 function ensureValidIndex(index: number, callback: () => any) {
-  if (!this.isValidIndex(index)) {
+  if (!isValidIndex(index)) {
     throw new Error("Index out of bounds");
   }
   return callback();

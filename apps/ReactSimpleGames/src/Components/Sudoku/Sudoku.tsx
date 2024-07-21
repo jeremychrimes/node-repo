@@ -10,13 +10,14 @@ import {
   getAffectedCellsSetForCellIndex,
   getSudokuGroupIndexes,
   isSudokuNumber,
+  ISudokuBoard,
   ISudokuBoardCell,
   SudokuBoard,
   SudokuValue,
 } from "@jeremychrimes/sudoku";
 
 export function Sudoku(): ReactElement {
-  const [board, setBoard] = useState<SudokuBoard>(new SudokuBoard());
+  const [board, setBoard] = useState<ISudokuBoard>(new SudokuBoard());
   const [selectedCellIndex, setSelectedCell] = useState<number | undefined>();
 
   console.log({ board });
@@ -86,7 +87,7 @@ type SubGridProps = {
   toggleSelected: (i: number) => () => void;
   selectedCell: number | undefined;
   affectedCells?: Set<number>;
-  board: SudokuBoard;
+  board: ISudokuBoard;
 };
 
 export function SubGrid({
