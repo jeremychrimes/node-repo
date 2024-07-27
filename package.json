@@ -29,6 +29,7 @@
   "workspaces": [
     "apps/sudoku",
     "apps/docusaurus",
+    "apps/jeremychrimes-blog-frontend",
     "libs/sudoku"
   ],
   "packageManager": "yarn@1.22.22"
