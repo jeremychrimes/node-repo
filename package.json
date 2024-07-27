@@ -2,7 +2,7 @@
   "name": "jeremychrimes-node",
   "version": "1.0.0",
   "author": "Jeremy Chrimes",
-  "private":true,
+  "private": true,
   "dependencies": {
     "@changesets/cli": "^2.27.7",
     "turbo": "^2.0.9"
@@ -23,11 +23,12 @@
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build test",
-    "prepare-publish": "turbo run build test && changeset && changeset version",
-    "publish-packages": "turbo run build test && changeset publish"
+    "prepare-publish": "turbo run build test && changeset",
+    "publish-packages": "turbo run build test && changeset version && changeset publish"
   },
   "workspaces": [
-    "apps/ReactSimpleGames",
+    "apps/sudoku",
+    "apps/docusaurus",
     "libs/sudoku"
   ],
   "packageManager": "yarn@1.22.22"
