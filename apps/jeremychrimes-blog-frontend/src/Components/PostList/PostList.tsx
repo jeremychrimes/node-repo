@@ -1,4 +1,4 @@
-import { List, Table } from "@mantine/core";
+import { Table } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 

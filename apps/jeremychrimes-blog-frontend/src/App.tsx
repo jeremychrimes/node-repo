@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import reactLogo from "./assets/react.svg";
+import { useState } from "react";
 import { Button, createTheme, MantineProvider } from "@mantine/core";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { PostList } from "./Components";
