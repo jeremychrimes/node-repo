@@ -1,12 +1,8 @@
 {
   "name": "@jeremychrimes/sudoku",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jeremychrimes/node-repo"
-  },
-  "version": "0.2.0",
+  "repository": "jeremychrimes/node-repo",
+  "version": "0.1.1",
   "description": "Sudoku Tools",
-  "version": "0.1.0",
   "dependencies": {
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
@@ -31,7 +27,6 @@
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
-  "repository": "jeremychrimes/node-repo",
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts",
     "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
