@@ -2,7 +2,6 @@
   "name": "jeremychrimes-node",
   "version": "1.0.0",
   "author": "Jeremy Chrimes",
-  "private": true,
   "dependencies": {
     "@changesets/cli": "^2.27.7",
     "prettier": "^3.3.3",
@@ -18,12 +17,14 @@
     "typescript": "^5.5.3"
   },
   "engines": {
-    "node": ">=20.0.0 <22.0.0"
+    "node": ">=22.0.0 <23.0.0"
   },
+  "packageManager": "yarn@1.22.22",
+  "private": true,
   "repository": "jeremychrimes/node-repo/",
   "scripts": {
-    "dev": "turbo dev",
     "build": "turbo build test",
+    "dev": "turbo dev",
     "prepare-publish": "turbo run build test && changeset",
     "publish-packages": "turbo run build test && changeset version && changeset publish"
   },
@@ -32,6 +33,5 @@
     "apps/docusaurus",
     "apps/jeremychrimes-blog-frontend",
     "libs/sudoku"
-  ],
-  "packageManager": "yarn@1.22.22"
+  ]
 }

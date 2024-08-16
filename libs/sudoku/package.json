@@ -1,17 +1,15 @@
 {
   "name": "@jeremychrimes/sudoku",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jeremychrimes/node-repo"
-  },
-  "version": "0.1.0",
   "description": "Sudoku Tools",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "license": "MIT",
+  "version": "0.1.0",
+  "dependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "ts-jest": "^29.2.3",
+    "typescript": "^5.5.3"
+  },
   "devDependencies": {
-    "@babel/core": "7.24.9",
+    "@babel/core": "7.25.2",
     "@babel/preset-env": "^7.24.8",
     "@babel/preset-typescript": "^7.24.7",
     "@types/jest": "^29.5.12",
@@ -20,21 +18,20 @@
     "tsup": "^8.2.0",
     "typescript": "^5.5.3"
   },
-  "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts",
-    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
-    "test:jest": "jest --passWithNoTests --updateSnapshot --coverage",
-    "test": "jest"
-  },
-  "dependencies": {
-    "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0",
-    "ts-jest": "^29.2.3",
-    "typescript": "^5.5.3"
-  },
   "files": [
     "./dist/",
     "./README.md",
     "CHANGLOG.md"
-  ]
+  ],
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "repository": "jeremychrimes/node-repo",
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "test": "jest",
+    "test:jest": "jest --passWithNoTests --updateSnapshot --coverage"
+  },
+  "types": "./dist/index.d.ts"
 }
