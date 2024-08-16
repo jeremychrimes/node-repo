@@ -1,5 +1,10 @@
 {
   "name": "@jeremychrimes/sudoku",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jeremychrimes/node-repo"
+  },
+  "version": "0.2.0",
   "description": "Sudoku Tools",
   "version": "0.1.0",
   "dependencies": {
