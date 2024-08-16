@@ -1,5 +1,11 @@
 # @jeremychrimes/sudoku
 
+## 0.1.1
+
+### Patch Changes
+
+- 5d73975: Update all node packages and node <22 support
+
 ## 0.2.0
 
 ### Minor Changes
